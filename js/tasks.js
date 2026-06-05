@@ -202,7 +202,12 @@ const TasksManager = {
                         <div class="kanban-card ${priorityClass}" draggable="true" data-id="${task.id}" style="cursor:pointer;">
                             <div class="card-tags">
                                 <span class="tag-dept">${deptName}</span>
-                                ${this.getPriorityLabel(task.priority)}
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    ${this.getPriorityLabel(task.priority)}
+                                    <button class="btn-delete-kanban-task" data-id="${task.id}" title="Xóa công việc" style="background:none; border:none; color:var(--danger-color); cursor:pointer; padding:0 2px; display:flex; align-items:center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                    </button>
+                                </div>
                             </div>
                             <h4 class="card-title" style="margin-top: 4px;">${task.title}</h4>
                             
@@ -482,6 +487,20 @@ const TasksManager = {
                     this.changeTaskStatus(taskId, nextStatus);
                     this.renderKanban(container.id, filters);
                     window.showToast?.(`Đã chuyển sang: ${this.getStatusLabel(nextStatus)}`, 'success');
+                    window.dispatchEvent(new CustomEvent('tasksUpdated'));
+                }
+            });
+        });
+
+        // Bind delete buttons on Kanban cards
+        container.querySelectorAll('.btn-delete-kanban-task').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                if (confirm('Bạn có chắc chắn muốn xóa công việc này không?')) {
+                    this.deleteTask(id);
+                    this.renderKanban(container.id, filters);
+                    window.showToast?.('Xóa công việc thành công!', 'success');
                     window.dispatchEvent(new CustomEvent('tasksUpdated'));
                 }
             });
