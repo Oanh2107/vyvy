@@ -1,0 +1,5 @@
+# Ignore portable git directory
+mingit/
+
+# Ignore backups
+*.json

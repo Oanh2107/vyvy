@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Quản lý Công việc & Nhân sự</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js CDN for personnel fluctuations charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo-icon">TF</div>
+                <span class="logo-text">TaskFlow</span>
+            </div>
+
+            <nav class="nav-menu">
+                <li>
+                    <a href="#" class="nav-link active" data-tab="dashboard" id="nav-dashboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-tab="tasks" id="nav-tasks">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <span>Công Việc</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-tab="personnel" id="nav-personnel">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Nhân Sự</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-tab="procurement" id="nav-procurement">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Mua Sắm</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-tab="contracts" id="nav-contracts">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Hợp Đồng</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-tab="departments" id="nav-departments">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span>Phòng Ban</span>
+                    </a>
+                </li>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-theme" id="theme-toggle" title="Đổi giao diện Sáng/Tối">
+                    Sáng / Tối
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- SECTION 1: DASHBOARD -->
+            <section id="dashboard-section" class="app-section active">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Bảng Điều Khiển</h1>
+                        <p>Tổng quan số liệu thống kê công việc và nhân sự doanh nghiệp.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" id="quick-add-staff">
+                            <span>+ Nhân sự nhanh</span>
+                        </button>
+                        <button class="btn btn-primary" id="quick-add-task">
+                            <span>+ Công việc nhanh</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Grid -->
+                <div class="dashboard-grid">
+                    <div class="stat-card staff">
+                        <span class="stat-label">Nhân sự đang làm</span>
+                        <span class="stat-value" id="stat-total-staff">0</span>
+                    </div>
+                    <div class="stat-card depts">
+                        <span class="stat-label">Tổng phòng ban</span>
+                        <span class="stat-value" id="stat-total-depts">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Tổng số công việc</span>
+                        <span class="stat-value" id="stat-total-tasks">0</span>
+                    </div>
+                    <div class="stat-card overdue">
+                        <span class="stat-label">Công việc quá hạn</span>
+                        <span class="stat-value" id="stat-overdue-tasks">0</span>
+                    </div>
+                </div>
+
+                <!-- Detail Panel Row -->
+                <div class="dashboard-details">
+                    <!-- Progress Card -->
+                    <div class="panel-card">
+                        <h3 class="panel-title">Tiến Độ Dự Án</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="dashboard-progress-fill"></div>
+                        </div>
+                        <div class="font-semibold text-lg-size" id="dashboard-progress-percent" style="margin-bottom: 24px;">0% Hoàn Thành</div>
+                        
+                        <h4 class="font-semibold text-base-size" style="margin-bottom:12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Phân bổ theo trạng thái</h4>
+                        <div class="status-breakdown">
+                            <div class="status-badge-item">
+                                <span class="status-dot dot-todo"></span>
+                                <div>
+                                    <div class="text-xs-size text-muted">Cần làm</div>
+                                    <div class="font-semibold text-base-size" id="stat-todo-count">0</div>
+                                </div>
+                            </div>
+                            <div class="status-badge-item">
+                                <span class="status-dot dot-inprogress"></span>
+                                <div>
+                                    <div class="text-xs-size text-muted">Đang làm</div>
+                                    <div class="font-semibold text-base-size" id="stat-inprogress-count">0</div>
+                                </div>
+                            </div>
+                            <div class="status-badge-item">
+                                <span class="status-dot dot-review"></span>
+                                <div>
+                                    <div class="text-xs-size text-muted">Đang duyệt</div>
+                                    <div class="font-semibold text-base-size" id="stat-review-count">0</div>
+                                </div>
+                            </div>
+                            <div class="status-badge-item">
+                                <span class="status-dot dot-completed"></span>
+                                <div>
+                                    <div class="text-xs-size text-muted">Hoàn thành</div>
+                                    <div class="font-semibold text-base-size" id="stat-completed-count">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Urgent Tasks Panel -->
+                    <div class="panel-card">
+                        <h3 class="panel-title">Khẩn Cấp & Quá Hạn</h3>
+                        <div id="urgent-tasks-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personnel Fluctuations Chart Panel -->
+                <div class="panel-card" style="margin-top: 24px;">
+                    <h3 class="panel-title">Biến Động Nhân Sự (Tuyển mới & Nghỉ việc)</h3>
+                    <div class="chart-container">
+                        <canvas id="personnel-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Backup & Import Management Section -->
+                <div class="panel-card" style="margin-top: 24px;">
+                    <h3 class="panel-title">Quản Trị Hệ Thống & Sao Lưu</h3>
+                    <p class="text-muted text-sm-size" style="margin-bottom: 16px;">
+                        Ứng dụng sử dụng LocalStorage để lưu trữ dữ liệu. Vui lòng xuất dữ liệu dự phòng thường xuyên để tránh mất mát.
+                    </p>
+                    <div style="display:flex; gap:12px; flex-wrap: wrap;">
+                        <button class="btn btn-outline-primary" id="btn-export-data">
+                            <span>📤 Xuất dữ liệu sao lưu</span>
+                        </button>
+                        <button class="btn btn-secondary" id="btn-import-data">
+                            <span>📥 Nhập dữ liệu khôi phục</span>
+                        </button>
+                        <input type="file" id="input-import-data" accept=".json" class="hidden">
+                        <button class="btn btn-outline-danger" id="btn-reset-data" style="margin-left: auto;">
+                            <span>⚠️ Reset về dữ liệu mẫu</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: TASKS -->
+            <section id="tasks-section" class="app-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Quản Lý Công Việc</h1>
+                        <p>Theo dõi tiến độ, phân công việc cho các phòng ban & nhân sự.</p>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-task">
+                        <span>+ Thêm công việc</span>
+                    </button>
+                </div>
+
+                <!-- Filters for Tasks -->
+                <div class="filter-bar">
+                    <div class="filters-group">
+                        <div class="search-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="search-task" class="filter-control" placeholder="Tìm kiếm công việc...">
+                        </div>
+                        <select id="filter-task-dept" class="filter-control">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <select id="filter-task-assignee" class="filter-control">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <select id="filter-task-priority" class="filter-control">
+                            <option value="">-- Tất cả độ ưu tiên --</option>
+                            <option value="high">Cao</option>
+                            <option value="medium">Trung bình</option>
+                            <option value="low">Thấp</option>
+                        </select>
+                        <div id="filter-task-status-container" class="hidden">
+                            <select id="filter-task-status" class="filter-control">
+                                <option value="">-- Tất cả trạng thái --</option>
+                                <option value="todo">Cần làm</option>
+                                <option value="in-progress">Đang làm</option>
+                                <option value="review">Đang duyệt</option>
+                                <option value="completed">Hoàn thành</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- View toggler: Kanban/List -->
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn active" id="btn-view-kanban">Kanban</button>
+                        <button class="view-toggle-btn" id="btn-view-list">Danh sách</button>
+                    </div>
+                </div>
+
+                <!-- Kanban Board or List View Container -->
+                <div id="tasks-list-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- SECTION 3: PERSONNEL -->
+            <section id="personnel-section" class="app-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Quản Lý Nhân Sự</h1>
+                        <p>Danh sách thông tin liên lạc, chức vụ và phòng ban của nhân sự.</p>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-personnel">
+                        <span>+ Thêm nhân sự mới</span>
+                    </button>
+                </div>
+
+                <!-- Personnel Filters -->
+                <div class="filter-bar">
+                    <div class="filters-group">
+                        <div class="search-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="search-personnel" class="filter-control" placeholder="Tên, email, sđt...">
+                        </div>
+                        <select id="filter-personnel-dept" class="filter-control">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <select id="filter-personnel-status" class="filter-control">
+                            <option value="">-- Tất cả trạng thái --</option>
+                            <option value="active">Đang làm việc</option>
+                            <option value="probation">Thử việc</option>
+                            <option value="inactive">Đã nghỉ việc</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Personnel List Container -->
+                <div id="personnel-list-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- SECTION 4: PROCUREMENT -->
+            <section id="procurement-section" class="app-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Quản Lý Mua Sắm</h1>
+                        <p>Theo dõi chi tiêu mua sắm trang thiết bị & văn phòng phẩm theo tháng.</p>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-procurement">
+                        <span>+ Ghi nhận mua sắm</span>
+                    </button>
+                </div>
+
+                <!-- Monthly Filter -->
+                <div class="filter-bar">
+                    <div class="filters-group">
+                        <select id="filter-procurement-month" class="filter-control">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Procurement Content Container -->
+                <div id="procurement-list-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- SECTION 5: CONTRACTS -->
+            <section id="contracts-section" class="app-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Hợp Đồng Lao Động</h1>
+                        <p>Quản lý mẫu hợp đồng lao động gốc và lập hợp đồng cho nhân viên chính thức.</p>
+                    </div>
+                </div>
+
+                <!-- Contracts Template and Grid Container -->
+                <div id="contracts-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- SECTION 6: DEPARTMENTS -->
+            <section id="departments-section" class="app-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <h1>Danh Sách Phòng Ban</h1>
+                        <p>Quản lý các phòng ban trong tổ chức.</p>
+                    </div>
+                </div>
+
+                <!-- Inline Add Department Form -->
+                <div class="panel-card" style="margin-bottom: 24px;">
+                    <h3 class="panel-title">Tạo Phòng Ban Mới</h3>
+                    <form id="form-add-department" class="dept-form-container">
+                        <input type="text" id="new-dept-name" class="form-input" placeholder="Ví dụ: Phòng Marketing, Phòng R&D..." required>
+                        <button type="submit" class="btn btn-primary">Thêm Phòng Ban</button>
+                    </form>
+                </div>
+
+                <!-- Departments Container -->
+                <div id="departments-list-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL 1: ADD/EDIT STAFF -->
+    <div class="modal" id="staff-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="staff-modal-title">Thêm Nhân Sự Mới</h2>
+                <button class="modal-close" title="Đóng">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="form-staff">
+                <div class="modal-body">
+                    <input type="hidden" id="staff-id-field">
+                    
+                    <div class="form-group">
+                        <label for="staff-name" class="form-label">Họ và Tên <span style="color:var(--danger-color)">*</span></label>
+                        <input type="text" id="staff-name" class="form-input" placeholder="Nguyễn Văn A" required>
+                    </div>
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="staff-email" class="form-label">Email</label>
+                            <input type="email" id="staff-email" class="form-input" placeholder="a.nguyen@company.com">
+                        </div>
+                        <div>
+                            <label for="staff-phone" class="form-label">Số điện thoại</label>
+                            <input type="tel" id="staff-phone" class="form-input" placeholder="0901234567">
+                        </div>
+                    </div>
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="staff-dept" class="form-label">Phòng Ban <span style="color:var(--danger-color)">*</span></label>
+                            <select id="staff-dept" class="form-input" required>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="staff-role" class="form-label">Chức Vụ <span style="color:var(--danger-color)">*</span></label>
+                            <input type="text" id="staff-role" class="form-input" placeholder="Ví dụ: Nhân viên Thiết kế, Chuyên viên..." required>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Salary and BHXH Fields -->
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="staff-salary" class="form-label">Mức Lương (VND)</label>
+                            <input type="number" id="staff-salary" class="form-input" placeholder="Ví dụ: 12000000" min="0">
+                        </div>
+                        <div>
+                            <label for="staff-bhxh" class="form-label">Mã Số BHXH</label>
+                            <input type="text" id="staff-bhxh" class="form-input" placeholder="Ví dụ: 0123456789">
+                        </div>
+                    </div>
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="staff-join-date" class="form-label">Ngày Vào Làm <span style="color:var(--danger-color)">*</span></label>
+                            <input type="date" id="staff-join-date" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="staff-contract-date" class="form-label">Ngày Ký HĐLĐ <span style="color:var(--danger-color)">*</span></label>
+                            <input type="date" id="staff-contract-date" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="staff-status-group">
+                        <label for="staff-status" class="form-label">Trạng Thế Làm Việc</label>
+                        <select id="staff-status" class="form-input">
+                            <option value="active">Đang làm việc</option>
+                            <option value="probation">Thử việc</option>
+                            <option value="inactive">Đã nghỉ việc</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close">Hủy</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit-staff">Thêm Nhân Sự</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ADD/EDIT TASK -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="task-modal-title">Tạo Công Việc Mới</h2>
+                <button class="modal-close" title="Đóng">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="form-task">
+                <div class="modal-body">
+                    <input type="hidden" id="task-id-field">
+
+                    <div class="form-group">
+                        <label for="task-title" class="form-label">Tiêu Đề Công Việc <span style="color:var(--danger-color)">*</span></label>
+                        <input type="text" id="task-title" class="form-input" placeholder="Ví dụ: Thiết kế trang Landing Page mới" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-desc" class="form-label">Mô Tả Chi Tiết</label>
+                        <textarea id="task-desc" class="form-input" placeholder="Mô tả nội dung công việc cần làm..."></textarea>
+                    </div>
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="task-assignee" class="form-label">Người Thực Hiện</label>
+                            <select id="task-assignee" class="form-input">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="task-dept" class="form-label">Phòng Ban Phụ Trách</label>
+                            <select id="task-dept" class="form-input">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="task-priority" class="form-label">Độ Ưu Tiên</label>
+                            <select id="task-priority" class="form-input">
+                                <option value="low">Thấp</option>
+                                <option value="medium" selected>Trung bình</option>
+                                <option value="high">Cao</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="task-due-date" class="form-label">Hạn Chót <span style="color:var(--danger-color)">*</span></label>
+                            <input type="date" id="task-due-date" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="task-status-group">
+                        <label for="task-status" class="form-label">Trạng Thái</label>
+                        <select id="task-status" class="form-input">
+                            <option value="todo">Cần làm</option>
+                            <option value="in-progress">Đang làm</option>
+                            <option value="review">Đang duyệt</option>
+                            <option value="completed">Hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close">Hủy</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit-task">Tạo Công Việc</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- NEW: MODAL 3: ADD/EDIT PROCUREMENT -->
+    <div class="modal" id="procurement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="procurement-modal-title">Ghi Nhận Mua Sắm Vật Tư</h2>
+                <button class="modal-close" title="Đóng">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="form-procurement">
+                <div class="modal-body">
+                    <input type="hidden" id="procurement-id-field">
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="proc-date" class="form-label">Ngày Mua <span style="color:var(--danger-color)">*</span></label>
+                            <input type="date" id="proc-date" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="proc-supplier" class="form-label">Nhà Cung Cấp <span style="color:var(--danger-color)">*</span></label>
+                            <input type="text" id="proc-supplier" class="form-input" placeholder="Ví dụ: Phong Vũ, Hòa Phát..." required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="proc-product-name" class="form-label">Tên Sản Phẩm / Vật Tư <span style="color:var(--danger-color)">*</span></label>
+                        <input type="text" id="proc-product-name" class="form-input" placeholder="Ví dụ: Máy tính xách tay Dell XPS" required>
+                    </div>
+
+                    <div class="form-group row-2">
+                        <div>
+                            <label for="proc-quantity" class="form-label">Số Lượng <span style="color:var(--danger-color)">*</span></label>
+                            <input type="number" id="proc-quantity" class="form-input" placeholder="Ví dụ: 2" min="1" required>
+                        </div>
+                        <div>
+                            <label for="proc-price" class="form-label">Đơn Giá (VND) <span style="color:var(--danger-color)">*</span></label>
+                            <input type="number" id="proc-price" class="form-input" placeholder="Ví dụ: 15000000" min="0" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-modal-close">Hủy</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit-procurement">Ghi Nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- NEW: MODAL 4: VIEW/PRINT LABOR CONTRACT -->
+    <div class="modal" id="contract-view-modal">
+        <div class="modal-content" style="max-width: 720px;">
+            <div class="modal-header">
+                <h2>Xem Hợp Đồng Lao Động</h2>
+                <button class="modal-close" title="Đóng">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="background-color: var(--bg-tertiary);">
+                <input type="hidden" id="contract-view-staff-id">
+                <div class="contract-preview-container" id="contract-preview-content">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-modal-close">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btn-print-contract">🖨️ In Hợp Đồng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Printable Area for window.print() -->
+    <div id="print-container-wrapper">
+        <div id="print-content" class="contract-print-page"></div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/departments.js"></script>
+    <script src="js/personnel.js"></script>
+    <script src="js/procurement.js"></script>
+    <script src="js/contracts.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
