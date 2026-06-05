@@ -6,6 +6,9 @@ const KEYS = {
     TASKS: 'taskflow_tasks',
     PROCUREMENTS: 'taskflow_procurements',
     CONTRACT_TEMPLATE: 'taskflow_contract_template',
+    PROCEDURES: 'taskflow_procedures',
+    DOCUMENTS: 'taskflow_documents',
+    RECRUITMENTS: 'taskflow_recruitments',
     THEME: 'taskflow_theme'
 };
 
@@ -93,7 +96,8 @@ const MOCK_TASKS = [
         deptId: 'dept-3',
         priority: 'high',
         dueDate: '2026-06-15',
-        status: 'in-progress'
+        status: 'in-progress',
+        tags: 'Giao diện, Sửa lỗi'
     },
     {
         id: 'task-2',
@@ -103,7 +107,8 @@ const MOCK_TASKS = [
         deptId: 'dept-2',
         priority: 'medium',
         dueDate: '2026-06-10',
-        status: 'todo'
+        status: 'todo',
+        tags: 'Tuyển dụng'
     },
     {
         id: 'task-3',
@@ -113,7 +118,8 @@ const MOCK_TASKS = [
         deptId: 'dept-4',
         priority: 'high',
         dueDate: '2026-06-20',
-        status: 'todo'
+        status: 'todo',
+        tags: 'Marketing, Kế hoạch'
     },
     {
         id: 'task-4',
@@ -123,7 +129,8 @@ const MOCK_TASKS = [
         deptId: 'dept-1',
         priority: 'high',
         dueDate: '2026-05-30',
-        status: 'completed'
+        status: 'completed',
+        tags: 'Tài chính, Báo cáo'
     },
     {
         id: 'task-5',
@@ -133,17 +140,88 @@ const MOCK_TASKS = [
         deptId: 'dept-4',
         priority: 'low',
         dueDate: '2026-06-12',
-        status: 'review'
+        status: 'review',
+        tags: 'Thiết kế'
     }
 ];
 
 const MOCK_PROCUREMENTS = [
-    { id: 'proc-1', date: '2026-05-10', productName: 'Máy tính xách tay Dell Vostro', quantity: 2, price: 17500000, supplier: 'Phong Vũ Computer' },
-    { id: 'proc-2', date: '2026-05-12', productName: 'Bàn làm việc gỗ công nghiệp', quantity: 4, price: 1100000, supplier: 'Nội thất Hòa Phát' },
-    { id: 'proc-3', date: '2026-05-15', productName: 'Giấy in A4 Double A 70gsm', quantity: 10, price: 82000, supplier: 'Văn phòng phẩm Hải Tiến' },
-    { id: 'proc-4', date: '2026-06-01', productName: 'Máy in Canon LBP 2900', quantity: 1, price: 4450000, supplier: 'Siêu thị Điện máy Nguyễn Kim' },
-    { id: 'proc-5', date: '2026-06-02', productName: 'Gói trà, cà phê & đường tháng 6', quantity: 1, price: 780000, supplier: 'Bách Hóa Xanh' },
-    { id: 'proc-6', date: '2026-06-03', productName: 'Bút bi Thiên Long FO-03 (Hộp 20 cái)', quantity: 3, price: 95000, supplier: 'Nhà sách Nguyễn Văn Cừ' }
+    { id: 'proc-1', date: '2026-05-10', productName: 'Máy tính xách tay Dell Vostro', quantity: 2, price: 17500000, supplier: 'Phong Vũ Computer', deptId: 'dept-3' },
+    { id: 'proc-2', date: '2026-05-12', productName: 'Bàn làm việc gỗ công nghiệp', quantity: 4, price: 1100000, supplier: 'Nội thất Hòa Phát', deptId: 'dept-2' },
+    { id: 'proc-3', date: '2026-05-15', productName: 'Giấy in A4 Double A 70gsm', quantity: 10, price: 82000, supplier: 'Văn phòng phẩm Hải Tiến', deptId: 'dept-2' },
+    { id: 'proc-4', date: '2026-06-01', productName: 'Máy in Canon LBP 2900', quantity: 1, price: 4450000, supplier: 'Siêu thị Điện máy Nguyễn Kim', deptId: 'dept-1' },
+    { id: 'proc-5', date: '2026-06-02', productName: 'Gói trà, cà phê & đường tháng 6', quantity: 1, price: 780000, supplier: 'Bách Hóa Xanh', deptId: 'dept-2' },
+    { id: 'proc-6', date: '2026-06-03', productName: 'Bút bi Thiên Long FO-03 (Hộp 20 cái)', quantity: 3, price: 95000, supplier: 'Nhà sách Nguyễn Văn Cừ', deptId: 'dept-4' }
+];
+
+const MOCK_PROCEDURES = [
+    {
+        id: 'proc-1',
+        name: 'Quy trình thử việc & Onboard nhân sự mới',
+        deptId: 'dept-2',
+        description: 'Các bước chuẩn bị và chào đón nhân viên mới gia nhập công ty.',
+        steps: [
+            { title: 'Bước 1: Chuẩn bị trang thiết bị', desc: 'Chuẩn bị góc làm việc, máy tính, tài khoản email và công cụ làm việc trước ngày làm 1 ngày.' },
+            { title: 'Bước 2: Ký hợp đồng & Hội nhập', desc: 'Ký hợp đồng thử việc, hướng dẫn quy chế nội bộ, văn hóa công ty và giới thiệu nhân sự.' },
+            { title: 'Bước 3: Đánh giá thử việc', desc: 'Trưởng bộ phận đào tạo chuyên môn, đánh giá năng lực sau 2 tháng để quyết định ký HĐ chính thức.' }
+        ]
+    },
+    {
+        id: 'proc-2',
+        name: 'Quy trình xin phê duyệt ngân sách mua sắm',
+        deptId: 'dept-1',
+        description: 'Quy trình đề xuất chi tiêu và cấp phát ngân sách mua vật tư thiết bị nội bộ.',
+        steps: [
+            { title: 'Bước 1: Tạo tờ trình đề xuất', desc: 'Bộ phận đề xuất lập phiếu ghi nhận nhu cầu, số lượng, đơn giá dự kiến và lý do mua sắm.' },
+            { title: 'Bước 2: Trưởng bộ phận duyệt', desc: 'Cấp quản lý phòng ban xem xét tính cần thiết của đề xuất và ký duyệt nội bộ.' },
+            { title: 'Bước 3: Ban Giám Đốc phê duyệt', desc: 'Ban Giám đốc xem xét hạn mức ngân sách và duyệt chi chuyển kế toán mua sắm.' }
+        ]
+    }
+];
+
+const MOCK_DOCUMENTS = [
+    {
+        id: 'doc-1',
+        title: 'Quy chế làm việc nội bộ năm 2026',
+        date: '2026-01-01',
+        category: 'Quy chế',
+        content: `QUY CHẾ LÀM VIỆC NỘI BỘ NĂM 2026
+
+Điều 1: Thời gian làm việc
+- Giờ làm việc tiêu chuẩn: Từ 08h00 đến 17h30 hàng ngày.
+- Nghỉ trưa: Từ 12h00 đến 13h30.
+- Ngày làm việc: Từ thứ Hai đến hết thứ Sáu hàng tuần.
+- Nhân viên thực hiện chấm công ra/vào qua ứng dụng nội bộ hoặc vân tay đúng quy định.
+
+Điều 2: Trang phục công sở
+- Yêu cầu trang phục lịch sự, gọn gàng và chuyên nghiệp.
+- Thứ Hai hàng tuần: Mặc áo đồng phục công ty kết hợp quần/chân váy tối màu.
+
+Điều 3: Quy chế Nghỉ phép
+- Mỗi nhân viên chính thức có 12 ngày phép năm hưởng nguyên lương.
+- Nghỉ phép từ 1 ngày trở lên phải gửi tờ trình duyệt trước ít nhất 1 ngày làm việc.`
+    },
+    {
+        id: 'doc-2',
+        title: 'Chính sách bảo mật thông tin nội bộ',
+        date: '2026-02-15',
+        category: 'Chính sách',
+        content: `CHÍNH SÁCH BẢO MẬT THÔNG TIN NỘI BỘ
+
+Điều 1: Bảo mật dữ liệu khách hàng
+- Mọi thông tin liên hệ, dữ liệu hợp đồng và dự án của khách hàng đều là tài sản bảo mật tối mật của công ty.
+- Tuyệt đối không chia sẻ thông tin khách hàng cho bất kỳ bên thứ ba nào khi chưa được phê duyệt từ Giám đốc.
+
+Điều 2: Bảo mật hệ thống phần mềm
+- Không sử dụng tài khoản làm việc trên các thiết bị công cộng mà không đăng xuất.
+- Đặt mật khẩu thiết bị cá nhân có độ dài ít nhất 8 ký tự và thay đổi 3 tháng một lần.`
+    }
+];
+
+const MOCK_RECRUITMENTS = [
+    { id: 'rec-1', position: 'Lập trình viên React Native', deptId: 'dept-3', quantity: 2, dueDate: '2026-06-30', status: 'tuyển dụng' },
+    { id: 'rec-2', position: 'Chuyên viên Nhân sự tổng hợp', deptId: 'dept-2', quantity: 1, dueDate: '2026-06-25', status: 'tuyển dụng' },
+    { id: 'rec-3', position: 'Chuyên viên Thiết kế đồ họa', deptId: 'dept-4', quantity: 1, dueDate: '2026-05-31', status: 'đã tuyển' }
 ];
 
 const DEFAULT_CONTRACT_TEMPLATE = `CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -200,6 +278,15 @@ const StorageManager = {
         if (!localStorage.getItem(KEYS.PROCUREMENTS)) {
             localStorage.setItem(KEYS.PROCUREMENTS, JSON.stringify(MOCK_PROCUREMENTS));
         }
+        if (!localStorage.getItem(KEYS.PROCEDURES)) {
+            localStorage.setItem(KEYS.PROCEDURES, JSON.stringify(MOCK_PROCEDURES));
+        }
+        if (!localStorage.getItem(KEYS.DOCUMENTS)) {
+            localStorage.setItem(KEYS.DOCUMENTS, JSON.stringify(MOCK_DOCUMENTS));
+        }
+        if (!localStorage.getItem(KEYS.RECRUITMENTS)) {
+            localStorage.setItem(KEYS.RECRUITMENTS, JSON.stringify(MOCK_RECRUITMENTS));
+        }
         if (!localStorage.getItem(KEYS.CONTRACT_TEMPLATE)) {
             localStorage.setItem(KEYS.CONTRACT_TEMPLATE, DEFAULT_CONTRACT_TEMPLATE);
         }
@@ -244,6 +331,33 @@ const StorageManager = {
         window.dispatchEvent(new CustomEvent('procurementsUpdated'));
     },
 
+    getProcedures() {
+        return JSON.parse(localStorage.getItem(KEYS.PROCEDURES)) || [];
+    },
+
+    saveProcedures(procedures) {
+        localStorage.setItem(KEYS.PROCEDURES, JSON.stringify(procedures));
+        window.dispatchEvent(new CustomEvent('proceduresUpdated'));
+    },
+
+    getDocuments() {
+        return JSON.parse(localStorage.getItem(KEYS.DOCUMENTS)) || [];
+    },
+
+    saveDocuments(documents) {
+        localStorage.setItem(KEYS.DOCUMENTS, JSON.stringify(documents));
+        window.dispatchEvent(new CustomEvent('documentsUpdated'));
+    },
+
+    getRecruitments() {
+        return JSON.parse(localStorage.getItem(KEYS.RECRUITMENTS)) || [];
+    },
+
+    saveRecruitments(recruitments) {
+        localStorage.setItem(KEYS.RECRUITMENTS, JSON.stringify(recruitments));
+        window.dispatchEvent(new CustomEvent('recruitmentsUpdated'));
+    },
+
     getContractTemplate() {
         return localStorage.getItem(KEYS.CONTRACT_TEMPLATE) || DEFAULT_CONTRACT_TEMPLATE;
     },
@@ -267,6 +381,9 @@ const StorageManager = {
             personnel: this.getPersonnel(),
             tasks: this.getTasks(),
             procurements: this.getProcurements(),
+            procedures: this.getProcedures(),
+            documents: this.getDocuments(),
+            recruitments: this.getRecruitments(),
             contractTemplate: this.getContractTemplate()
         };
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
@@ -287,12 +404,11 @@ const StorageManager = {
                     this.saveDepartments(parsedData.departments);
                     this.savePersonnel(parsedData.personnel);
                     this.saveTasks(parsedData.tasks);
-                    if (parsedData.procurements) {
-                        this.saveProcurements(parsedData.procurements);
-                    }
-                    if (parsedData.contractTemplate) {
-                        this.saveContractTemplate(parsedData.contractTemplate);
-                    }
+                    if (parsedData.procurements) this.saveProcurements(parsedData.procurements);
+                    if (parsedData.procedures) this.saveProcedures(parsedData.procedures);
+                    if (parsedData.documents) this.saveDocuments(parsedData.documents);
+                    if (parsedData.recruitments) this.saveRecruitments(parsedData.recruitments);
+                    if (parsedData.contractTemplate) this.saveContractTemplate(parsedData.contractTemplate);
                     if (callback) callback(true, 'Nhập dữ liệu thành công!');
                 } else {
                     if (callback) callback(false, 'Định dạng file không đúng cấu trúc TaskFlow!');
@@ -309,6 +425,9 @@ const StorageManager = {
         localStorage.removeItem(KEYS.PERSONNEL);
         localStorage.removeItem(KEYS.TASKS);
         localStorage.removeItem(KEYS.PROCUREMENTS);
+        localStorage.removeItem(KEYS.PROCEDURES);
+        localStorage.removeItem(KEYS.DOCUMENTS);
+        localStorage.removeItem(KEYS.RECRUITMENTS);
         localStorage.removeItem(KEYS.CONTRACT_TEMPLATE);
         this.init();
         window.dispatchEvent(new CustomEvent('dataCleared'));

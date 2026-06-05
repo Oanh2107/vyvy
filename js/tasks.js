@@ -1,3 +1,4 @@
+// js/tasks.js
 
 const TasksManager = {
     getTasks() {
@@ -20,6 +21,7 @@ const TasksManager = {
             deptId: taskData.deptId || '',
             priority: taskData.priority || 'medium',
             dueDate: taskData.dueDate,
+            tags: taskData.tags ? taskData.tags.trim() : '',
             status: taskData.status || 'todo'
         };
 
@@ -43,6 +45,7 @@ const TasksManager = {
             deptId: taskData.deptId || '',
             priority: taskData.priority,
             dueDate: taskData.dueDate,
+            tags: taskData.tags ? taskData.tags.trim() : '',
             status: taskData.status
         };
 
@@ -106,7 +109,6 @@ const TasksManager = {
         if (dueDate < today) return 'Quá hạn';
         if (dueDate === today) return 'Hôm nay';
         
-        // Count days left
         const diffTime = new Date(dueDate) - new Date(today);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return `Còn ${diffDays} ngày`;
@@ -123,7 +125,8 @@ const TasksManager = {
             const searchVal = filters.search.toLowerCase().trim();
             filteredTasks = filteredTasks.filter(t => 
                 t.title.toLowerCase().includes(searchVal) || 
-                t.description.toLowerCase().includes(searchVal)
+                t.description.toLowerCase().includes(searchVal) ||
+                (t.tags && t.tags.toLowerCase().includes(searchVal))
             );
         }
         if (filters.deptId) {
@@ -135,6 +138,14 @@ const TasksManager = {
         if (filters.priority) {
             filteredTasks = filteredTasks.filter(t => t.priority === filters.priority);
         }
+        // Custom filters for Dang do / Hoan thanh
+        if (filters.status) {
+            if (filters.status === 'pending') {
+                filteredTasks = filteredTasks.filter(t => t.status !== 'completed');
+            } else if (filters.status === 'completed') {
+                filteredTasks = filteredTasks.filter(t => t.status === 'completed');
+            }
+        }
 
         const columns = [
             { id: 'todo', name: 'Cần Làm', colorClass: 'col-todo' },
@@ -143,9 +154,18 @@ const TasksManager = {
             { id: 'completed', name: 'Hoàn Thành', colorClass: 'col-completed' }
         ];
 
-        let html = `<div class="kanban-board">`;
+        // Hide columns if they don't match the general filter
+        let activeColumns = columns;
+        if (filters.status === 'completed') {
+            activeColumns = columns.filter(c => c.id === 'completed');
+        } else if (filters.status === 'pending') {
+            activeColumns = columns.filter(c => c.id !== 'completed');
+        }
 
-        columns.forEach(col => {
+        let gridColumnsStyle = `grid-template-columns: repeat(${activeColumns.length}, 1fr);`;
+        let html = `<div class="kanban-board" style="${gridColumnsStyle}">`;
+
+        activeColumns.forEach(col => {
             const colTasks = filteredTasks.filter(t => t.status === col.id);
 
             html += `
@@ -175,14 +195,23 @@ const TasksManager = {
                         : '??';
                     const assigneeName = assignee ? assignee.name : 'Chưa phân công';
 
+                    // Parse tags
+                    const taskTags = task.tags ? task.tags.split(',').map(t => t.trim()).filter(t => t) : [];
+
                     html += `
-                        <div class="kanban-card" draggable="true" data-id="${task.id}">
+                        <div class="kanban-card" draggable="true" data-id="${task.id}" style="cursor:pointer;">
                             <div class="card-tags">
                                 <span class="tag-dept">${deptName}</span>
                                 ${this.getPriorityLabel(task.priority)}
                             </div>
-                            <h4 class="card-title">${task.title}</h4>
-                            <p class="card-desc">${task.description}</p>
+                            <h4 class="card-title" style="margin-top: 4px;">${task.title}</h4>
+                            
+                            <!-- Tags badges (Mini tags instead of description) -->
+                            ${taskTags.length > 0 ? `
+                                <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:6px;">
+                                    ${taskTags.map(tag => `<span class="badge" style="background-color: var(--bg-tertiary); color: var(--text-muted); font-size:10px; padding: 1px 6px; border-radius:4px;">${tag}</span>`).join('')}
+                                </div>
+                            ` : ''}
                             
                             <div class="card-meta">
                                 <div class="card-due ${dueClass}" title="Hạn chót: ${PersonnelManager.formatDate(task.dueDate)}">
@@ -204,7 +233,7 @@ const TasksManager = {
                                     </button>
                                 ` : '<div style="flex:1;"></div>'}
                                 
-                                <button class="btn-mobile-edit" data-id="${task.id}">Sửa</button>
+                                <button class="btn-mobile-edit" data-id="${task.id}">Xem</button>
                                 
                                 ${col.id !== 'completed' ? `
                                     <button class="btn-mobile-move move-right" data-id="${task.id}" data-current="${col.id}" title="Chuyển sang cột tiếp">
@@ -240,7 +269,8 @@ const TasksManager = {
             const searchVal = filters.search.toLowerCase().trim();
             filteredTasks = filteredTasks.filter(t => 
                 t.title.toLowerCase().includes(searchVal) || 
-                t.description.toLowerCase().includes(searchVal)
+                t.description.toLowerCase().includes(searchVal) ||
+                (t.tags && t.tags.toLowerCase().includes(searchVal))
             );
         }
         if (filters.deptId) {
@@ -252,8 +282,16 @@ const TasksManager = {
         if (filters.priority) {
             filteredTasks = filteredTasks.filter(t => t.priority === filters.priority);
         }
+        
+        // Custom filters for Dang do / Hoan thanh
         if (filters.status) {
-            filteredTasks = filteredTasks.filter(t => t.status === filters.status);
+            if (filters.status === 'pending') {
+                filteredTasks = filteredTasks.filter(t => t.status !== 'completed');
+            } else if (filters.status === 'completed') {
+                filteredTasks = filteredTasks.filter(t => t.status === 'completed');
+            } else {
+                filteredTasks = filteredTasks.filter(t => t.status === filters.status);
+            }
         }
 
         if (filteredTasks.length === 0) {
@@ -290,11 +328,18 @@ const TasksManager = {
             const dueText = this.getDueDateText(task.dueDate, task.status);
             const assigneeName = assignee ? assignee.name : 'Chưa phân công';
 
+            const taskTags = task.tags ? task.tags.split(',').map(t => t.trim()).filter(t => t) : [];
+
             html += `
                 <tr>
                     <td>
-                        <div class="font-semibold text-lg-size">${task.title}</div>
-                        <div class="text-sm-size text-muted text-truncate" style="max-width:300px;">${task.description}</div>
+                        <div class="font-semibold text-lg-size task-title-click" data-id="${task.id}" style="cursor:pointer; color:var(--text-main);">${task.title}</div>
+                        <!-- Mini tags list under title -->
+                        ${taskTags.length > 0 ? `
+                            <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:4px;">
+                                ${taskTags.map(tag => `<span class="badge" style="background-color: var(--bg-tertiary); color: var(--text-muted); font-size:9px; padding: 1px 4px; border-radius:4px;">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
                     </td>
                     <td><span class="font-medium">${assigneeName}</span></td>
                     <td><span class="badge badge-dept">${deptName}</span></td>
@@ -328,7 +373,15 @@ const TasksManager = {
         `;
         container.innerHTML = html;
 
-        // Bind events
+        // Bind clicks to open details modal
+        container.querySelectorAll('.task-title-click').forEach(title => {
+            title.addEventListener('click', () => {
+                const id = title.getAttribute('data-id');
+                window.openTaskDetailModal?.(id);
+            });
+        });
+
+        // Bind edit buttons
         container.querySelectorAll('.btn-edit-task').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
@@ -336,6 +389,7 @@ const TasksManager = {
             });
         });
 
+        // Bind delete buttons
         container.querySelectorAll('.btn-delete-task').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
@@ -344,7 +398,6 @@ const TasksManager = {
                     this.deleteTask(id);
                     this.renderList(containerId, filters);
                     window.showToast?.('Xóa công việc thành công!', 'success');
-                    // Trigger update event
                     window.dispatchEvent(new CustomEvent('tasksUpdated'));
                 }
             });
@@ -352,7 +405,6 @@ const TasksManager = {
     },
 
     bindKanbanEvents(container, filters) {
-        // Drag and Drop
         const cards = container.querySelectorAll('.kanban-card');
         const columns = container.querySelectorAll('.kanban-column');
 
@@ -366,10 +418,13 @@ const TasksManager = {
                 card.classList.remove('dragging');
             });
 
-            // Card click to edit (on double click or clicking edit button)
-            card.addEventListener('dblclick', () => {
+            // Single click to open detail view
+            card.addEventListener('click', (e) => {
+                // Prevent trigger if clicking on mobile actions
+                if (e.target.closest('.card-actions-mobile')) return;
+                
                 const id = card.getAttribute('data-id');
-                window.openTaskModal?.(id);
+                window.openTaskDetailModal?.(id);
             });
 
             const editBtn = card.querySelector('.btn-mobile-edit');
@@ -377,7 +432,7 @@ const TasksManager = {
                 editBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const id = editBtn.getAttribute('data-id');
-                    window.openTaskModal?.(id);
+                    window.openTaskDetailModal?.(id);
                 });
             }
         });
@@ -404,6 +459,7 @@ const TasksManager = {
                         this.changeTaskStatus(taskId, newStatus);
                         this.renderKanban(container.id, filters);
                         window.showToast?.(`Đã chuyển sang: ${this.getStatusLabel(newStatus)}`, 'success');
+                        window.dispatchEvent(new CustomEvent('tasksUpdated'));
                     }
                 }
             });
@@ -426,6 +482,7 @@ const TasksManager = {
                     this.changeTaskStatus(taskId, nextStatus);
                     this.renderKanban(container.id, filters);
                     window.showToast?.(`Đã chuyển sang: ${this.getStatusLabel(nextStatus)}`, 'success');
+                    window.dispatchEvent(new CustomEvent('tasksUpdated'));
                 }
             });
         });

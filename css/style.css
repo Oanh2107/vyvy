@@ -5,20 +5,21 @@
 
 /* CSS Variables & Theme Setup */
 :root {
+
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     
-    /* Light Theme Palette (Indigo Focus) */
-    --bg-primary: #f8fafc;
+    /* Light Theme Palette (Orange Focus) */
+    --bg-primary: #fafaf9;
     --bg-secondary: #ffffff;
-    --bg-tertiary: #f1f5f9;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
+    --bg-tertiary: #f5f5f4;
+    --text-main: #1c1917;
+    --text-muted: #78716c;
     --text-inverse: #ffffff;
-    --border-color: #e2e8f0;
+    --border-color: #e7e5e4;
     
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-glow: rgba(79, 70, 229, 0.15);
+    --primary-color: #f97316;
+    --primary-hover: #ea580c;
+    --primary-glow: rgba(249, 115, 22, 0.15);
     
     --success-color: #10b981;
     --success-bg: #ecfdf5;
@@ -41,45 +42,45 @@
     --priority-low: #38bdf8;
     
     /* Card Styles & Shadows */
-    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-    --card-hover-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+    --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+    --card-hover-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
     --sidebar-width: 260px;
-    --border-radius: 12px;
-    --transition-speed: 0.25s;
+    --border-radius: 10px;
+    --transition-speed: 0.2s;
 }
 
 [data-theme="dark"] {
-    /* Dark Theme Palette */
-    --bg-primary: #0b0f19;
-    --bg-secondary: #161c2a;
-    --bg-tertiary: #1f293d;
-    --text-main: #f1f5f9;
-    --text-muted: #94a3b8;
-    --text-inverse: #0f172a;
-    --border-color: #2a354f;
+    /* Dark Theme Palette (Orange Focus) */
+    --bg-primary: #1c1917;
+    --bg-secondary: #292524;
+    --bg-tertiary: #44403c;
+    --text-main: #f5f5f4;
+    --text-muted: #a8a29e;
+    --text-inverse: #1c1917;
+    --border-color: #44403c;
     
-    --primary-color: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-glow: rgba(99, 102, 241, 0.25);
+    --primary-color: #fb923c;
+    --primary-hover: #f97316;
+    --primary-glow: rgba(251, 146, 60, 0.25);
     
     --success-color: #10b981;
-    --success-bg: rgba(16, 185, 129, 0.1);
+    --success-bg: rgba(16, 185, 129, 0.15);
     --success-text: #34d399;
     
     --warning-color: #f59e0b;
-    --warning-bg: rgba(245, 158, 11, 0.1);
+    --warning-bg: rgba(245, 158, 11, 0.15);
     --warning-text: #fbbf24;
     
     --danger-color: #f43f5e;
-    --danger-bg: rgba(244, 63, 94, 0.1);
+    --danger-bg: rgba(244, 63, 94, 0.15);
     --danger-text: #fda4af;
     
     --info-color: #06b6d4;
-    --info-bg: rgba(6, 182, 212, 0.1);
+    --info-bg: rgba(6, 182, 212, 0.15);
     --info-text: #67e8f9;
     
-    --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.25);
-    --card-hover-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+    --card-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+    --card-hover-shadow: 0 4px 6px rgb(0 0 0 / 0.3);
 }
 
 /* Base Styles & Reset */
@@ -1600,4 +1601,86 @@ textarea.form-input {
         background-color: #ffffff !important;
     }
 }
+
+/* Sub tabs buttons container */
+.sub-tabs-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.sub-tab-btn {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.sub-tab-btn:hover {
+    color: var(--text-main);
+    background-color: var(--bg-tertiary);
+}
+
+.sub-tab-btn.active {
+    background-color: var(--primary-color);
+    color: var(--text-inverse);
+    border-color: var(--primary-color);
+}
+
+/* Calendar checklist styles */
+.calendar-days-grid {
+    margin-bottom: 16px;
+}
+
+.calendar-day-card {
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-speed);
+}
+
+.calendar-day-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+.checklist-item {
+    transition: all var(--transition-speed);
+}
+
+.checklist-item:hover {
+    transform: translateX(4px);
+    border-color: var(--primary-color) !important;
+}
+
+/* Task Detail display */
+.task-detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .task-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.task-detail-desc {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: var(--text-main);
+    min-height: 120px;
+}
+
 
