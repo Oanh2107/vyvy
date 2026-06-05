@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Chart.js CDN for personnel fluctuations charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SheetJS for Excel import -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -212,9 +214,6 @@
                         <select id="filter-task-dept" class="filter-control">
                             <!-- Populated dynamically -->
                         </select>
-                        <select id="filter-task-assignee" class="filter-control">
-                            <!-- Populated dynamically -->
-                        </select>
                         <select id="filter-task-priority" class="filter-control">
                             <option value="">Độ ưu tiên</option>
                             <option value="high">Cao</option>
@@ -251,9 +250,15 @@
                         <h1>Quản Lý Nhân Sự</h1>
                         <p>Danh sách thông tin liên lạc, chức vụ và phòng ban của nhân sự.</p>
                     </div>
-                    <button class="btn btn-primary" id="btn-add-personnel">
-                        <span>+ Thêm nhân sự mới</span>
-                    </button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-secondary" id="btn-import-excel-trigger">
+                            <span>📊 Nhập từ Excel</span>
+                        </button>
+                        <input type="file" id="input-import-excel" accept=".xlsx, .xls, .csv" class="hidden">
+                        <button class="btn btn-primary" id="btn-add-personnel">
+                            <span>+ Thêm nhân sự mới</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Personnel Filters -->

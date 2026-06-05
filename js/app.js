@@ -371,6 +371,157 @@ function setupPersonnelPage() {
             window.openStaffModal();
         });
     }
+
+    const importExcelTrigger = document.getElementById('btn-import-excel-trigger');
+    const importExcelInput = document.getElementById('input-import-excel');
+    if (importExcelTrigger && importExcelInput) {
+        importExcelTrigger.addEventListener('click', () => {
+            importExcelInput.click();
+        });
+        importExcelInput.addEventListener('change', handleExcelImport);
+    }
+}
+
+function handleExcelImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+        try {
+            const data = new Uint8Array(evt.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            
+            // Get raw JSON rows
+            const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            if (rows.length < 2) {
+                showToast('File Excel trống hoặc không đủ thông tin!', 'error');
+                return;
+            }
+            
+            const headers = rows[0].map(h => (h || '').toString().trim().toLowerCase());
+            
+            // Map headers to field indices
+            const mapField = (variants) => {
+                return headers.findIndex(h => variants.some(v => h.includes(v.toLowerCase())));
+            };
+            
+            const nameIdx = mapField(['họ tên', 'ho ten', 'họ và tên', 'ho va ten', 'tên', 'ten', 'name']);
+            const emailIdx = mapField(['email', 'thư điện tử', 'thu dien tu']);
+            const phoneIdx = mapField(['sđt', 'sdt', 'số điện thoại', 'so dien thoai', 'điện thoại', 'dien thoai', 'phone']);
+            const deptIdx = mapField(['phòng ban', 'phong ban', 'bộ phận', 'bo phan', 'department', 'dept']);
+            const roleIdx = mapField(['chức vụ', 'chuc vu', 'chức danh', 'chuc danh', 'vai trò', 'vai tro', 'role']);
+            const salaryIdx = mapField(['lương', 'luong', 'mức lương', 'muc luong', 'salary']);
+            const bhxhIdx = mapField(['bhxh', 'bảo hiểm', 'bao hiem', 'số bhxh', 'so bhxh']);
+            const joinDateIdx = mapField(['ngày vào', 'ngay vao', 'ngày làm', 'ngay lam', 'join date', 'joindate']);
+            const contractDateIdx = mapField(['ngày ký', 'ngay ky', 'ngày hợp đồng', 'ngay hop dong', 'contract date', 'contractdate']);
+            
+            if (nameIdx === -1) {
+                showToast('Không tìm thấy cột Họ Tên trong file Excel!', 'error');
+                return;
+            }
+            if (deptIdx === -1) {
+                showToast('Không tìm thấy cột Phòng Ban trong file Excel!', 'error');
+                return;
+            }
+            
+            const departments = StorageManager.getDepartments();
+            const personnel = StorageManager.getPersonnel();
+            let importedCount = 0;
+            let errorCount = 0;
+            
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row || row.length === 0) continue;
+                
+                const rawName = row[nameIdx];
+                if (!rawName || !rawName.toString().trim()) continue;
+                
+                const rawDept = deptIdx !== -1 ? (row[deptIdx] || '').toString().trim() : '';
+                
+                let matchedDept = departments.find(d => d.name.toLowerCase() === rawDept.toLowerCase());
+                if (!matchedDept && rawDept) {
+                    try {
+                        matchedDept = DepartmentsManager.addDepartment(rawDept);
+                        departments.push(matchedDept);
+                    } catch (e) {}
+                }
+                
+                const finalDeptId = matchedDept ? matchedDept.id : (departments[0] ? departments[0].id : 'dept-1');
+                
+                const rawEmail = emailIdx !== -1 ? (row[emailIdx] || '').toString().trim() : '';
+                if (rawEmail && personnel.some(p => p.email.toLowerCase() === rawEmail.toLowerCase())) {
+                    errorCount++;
+                    continue;
+                }
+                
+                const parseExcelDate = (val) => {
+                    if (!val) return '';
+                    if (typeof val === 'number') {
+                        const date = new Date((val - 25569) * 86400 * 1000);
+                        return date.toISOString().slice(0, 10);
+                    }
+                    const str = val.toString().trim();
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+                    
+                    const parts = str.split(/[\/\-]/);
+                    if (parts.length === 3) {
+                        let day = parts[0].padStart(2, '0');
+                        let month = parts[1].padStart(2, '0');
+                        let year = parts[2];
+                        if (year.length === 2) year = '20' + year;
+                        if (parseInt(month) <= 12 && parseInt(day) <= 31) {
+                            return `${year}-${month}-${day}`;
+                        }
+                    }
+                    try {
+                        const d = new Date(str);
+                        if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+                    } catch (e) {}
+                    return '';
+                };
+                
+                const joinDate = joinDateIdx !== -1 ? parseExcelDate(row[joinDateIdx]) : new Date().toISOString().slice(0, 10);
+                const contractDate = contractDateIdx !== -1 ? parseExcelDate(row[contractDateIdx]) : joinDate;
+                
+                const staffData = {
+                    name: rawName.toString().trim(),
+                    email: rawEmail,
+                    phone: phoneIdx !== -1 ? (row[phoneIdx] || '').toString().trim() : '',
+                    deptId: finalDeptId,
+                    role: roleIdx !== -1 ? (row[roleIdx] || '').toString().trim() : 'Nhân viên',
+                    salary: salaryIdx !== -1 ? parseFloat(row[salaryIdx] || 0) : 0,
+                    bhxh: bhxhIdx !== -1 ? (row[bhxhIdx] || '').toString().trim() : '',
+                    joinDate: joinDate || new Date().toISOString().slice(0, 10),
+                    contractDate: contractDate || joinDate || new Date().toISOString().slice(0, 10),
+                    status: 'active'
+                };
+                
+                try {
+                    PersonnelManager.addStaff(staffData);
+                    importedCount++;
+                } catch (err) {
+                    errorCount++;
+                }
+            }
+            
+            showToast(`Nhập thành công ${importedCount} nhân sự! (Lỗi/Trùng: ${errorCount})`, 'success');
+            
+            DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Phòng ban');
+            DepartmentsManager.populateSelectElement('filter-task-dept', 'Phòng ban');
+            populateTaskAssigneeFilter();
+            handleDataUpdate();
+            
+        } catch (err) {
+            showToast('Lỗi khi đọc file Excel: ' + err.message, 'error');
+            console.error(err);
+        }
+    };
+    reader.readAsArrayBuffer(file);
+    e.target.value = '';
 }
 
 // --- TASKS PAGE LOGIC ---
