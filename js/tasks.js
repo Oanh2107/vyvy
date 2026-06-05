@@ -150,7 +150,6 @@ const TasksManager = {
         const columns = [
             { id: 'todo', name: 'Cần Làm', colorClass: 'col-todo' },
             { id: 'in-progress', name: 'Đang Làm', colorClass: 'col-in-progress' },
-            { id: 'review', name: 'Đang Duyệt', colorClass: 'col-review' },
             { id: 'completed', name: 'Hoàn Thành', colorClass: 'col-completed' }
         ];
 
@@ -198,8 +197,9 @@ const TasksManager = {
                     // Parse tags
                     const taskTags = task.tags ? task.tags.split(',').map(t => t.trim()).filter(t => t) : [];
 
+                    const priorityClass = `priority-${task.priority}-card`;
                     html += `
-                        <div class="kanban-card" draggable="true" data-id="${task.id}" style="cursor:pointer;">
+                        <div class="kanban-card ${priorityClass}" draggable="true" data-id="${task.id}" style="cursor:pointer;">
                             <div class="card-tags">
                                 <span class="tag-dept">${deptName}</span>
                                 ${this.getPriorityLabel(task.priority)}
@@ -473,7 +473,7 @@ const TasksManager = {
                 const currentStatus = btn.getAttribute('data-current');
                 const isLeft = btn.classList.contains('move-left');
                 
-                const statusOrder = ['todo', 'in-progress', 'review', 'completed'];
+                const statusOrder = ['todo', 'in-progress', 'completed'];
                 const currentIndex = statusOrder.indexOf(currentStatus);
                 let nextIndex = isLeft ? currentIndex - 1 : currentIndex + 1;
                 

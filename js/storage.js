@@ -13,10 +13,16 @@ const KEYS = {
 };
 
 const MOCK_DEPARTMENTS = [
-    { id: 'dept-1', name: 'Ban Giám Đốc' },
-    { id: 'dept-2', name: 'Phòng Nhân Sự' },
-    { id: 'dept-3', name: 'Phòng Kỹ Thuật' },
-    { id: 'dept-4', name: 'Phòng Marketing' }
+    { id: 'dept-1', name: 'Ban giám đốc' },
+    { id: 'dept-2', name: 'Phòng HCNS' },
+    { id: 'dept-3', name: 'Phòng kĩ thuật' },
+    { id: 'dept-4', name: 'Phòng Biên tập' },
+    { id: 'dept-5', name: 'Phòng Kế toán' },
+    { id: 'dept-6', name: 'Phòng Đào tạo' },
+    { id: 'dept-7', name: 'Phòng Thiết kế - phần mềm' },
+    { id: 'dept-8', name: 'Phòng sản xuất' },
+    { id: 'dept-9', name: 'Phòng kinh doanh' },
+    { id: 'dept-10', name: 'Phòng sự kiện' }
 ];
 
 const MOCK_PERSONNEL = [
@@ -39,7 +45,7 @@ const MOCK_PERSONNEL = [
         email: 'binh.tran@company.com',
         phone: '0912345678',
         deptId: 'dept-2',
-        role: 'Chuyên viên Tuyển dụng',
+        role: 'Chuyên viên HCNS',
         joinDate: '2024-03-01',
         contractDate: '2024-03-01',
         salary: 15000000,
@@ -52,7 +58,7 @@ const MOCK_PERSONNEL = [
         email: 'cuong.pham@company.com',
         phone: '0923456789',
         deptId: 'dept-3',
-        role: 'Lập trình viên Senior',
+        role: 'Kỹ sư phần mềm',
         joinDate: '2024-02-10',
         contractDate: '2024-02-10',
         salary: 22000000,
@@ -65,7 +71,7 @@ const MOCK_PERSONNEL = [
         email: 'dung.le@company.com',
         phone: '0934567890',
         deptId: 'dept-4',
-        role: 'Chuyên viên Content',
+        role: 'Biên tập viên chính',
         joinDate: '2024-05-15',
         contractDate: '2024-05-15',
         salary: 10000000,
@@ -77,12 +83,25 @@ const MOCK_PERSONNEL = [
         name: 'Hoàng Văn Giang',
         email: 'giang.hoang@company.com',
         phone: '0945678901',
-        deptId: 'dept-4',
-        role: 'Thiết kế đồ họa',
+        deptId: 'dept-7',
+        role: 'Kỹ sư Thiết kế UI/UX',
         joinDate: '2025-11-20',
         contractDate: '2025-11-20',
         salary: 12000000,
         bhxh: '0909090909',
+        status: 'active'
+    },
+    {
+        id: 'staff-6',
+        name: 'Lê Minh Giáo',
+        email: 'giao.le@company.com',
+        phone: '0956789012',
+        deptId: 'dept-6',
+        role: 'Giáo viên',
+        joinDate: '2024-09-01',
+        contractDate: '2024-09-01',
+        salary: 18000000,
+        bhxh: '0555555555',
         status: 'active'
     }
 ];
@@ -101,8 +120,8 @@ const MOCK_TASKS = [
     },
     {
         id: 'task-2',
-        title: 'Tuyển dụng Lập trình viên React',
-        description: 'Lên tin tuyển dụng, sàng lọc hồ sơ ứng viên và lên lịch phỏng vấn cho vị trí React Developer.',
+        title: 'Xây dựng kế hoạch tuyển dụng giảng viên mới',
+        description: 'Lên tin tuyển dụng và tiêu chuẩn đánh giá giảng viên cho các lớp đào tạo HCNS.',
         assigneeId: 'staff-2',
         deptId: 'dept-2',
         priority: 'medium',
@@ -112,14 +131,14 @@ const MOCK_TASKS = [
     },
     {
         id: 'task-3',
-        title: 'Thiết kế chiến dịch Marketing tháng 6',
-        description: 'Lên kế hoạch chạy quảng cáo Facebook và Google Search cho sản phẩm mới ra mắt.',
+        title: 'Biên tập nội dung tài liệu đào tạo',
+        description: 'Soạn thảo và tổng hợp nội dung giáo trình đào tạo cho phòng Đào tạo.',
         assigneeId: 'staff-4',
         deptId: 'dept-4',
         priority: 'high',
         dueDate: '2026-06-20',
         status: 'todo',
-        tags: 'Marketing, Kế hoạch'
+        tags: 'Biên tập, Đào tạo'
     },
     {
         id: 'task-4',
@@ -134,13 +153,13 @@ const MOCK_TASKS = [
     },
     {
         id: 'task-5',
-        title: 'Thiết kế Banner cho Website mới',
-        description: 'Thiết kế banner trang chủ và các trang con cho đợt khuyến mãi sắp tới.',
+        title: 'Thiết kế Mockup Website Đào tạo',
+        description: 'Thiết kế giao diện các trang khóa học và chương trình đào tạo trực tuyến.',
         assigneeId: 'staff-5',
-        deptId: 'dept-4',
+        deptId: 'dept-7',
         priority: 'low',
         dueDate: '2026-06-12',
-        status: 'review',
+        status: 'in-progress',
         tags: 'Thiết kế'
     }
 ];
@@ -219,9 +238,9 @@ const MOCK_DOCUMENTS = [
 ];
 
 const MOCK_RECRUITMENTS = [
-    { id: 'rec-1', position: 'Lập trình viên React Native', deptId: 'dept-3', quantity: 2, dueDate: '2026-06-30', status: 'tuyển dụng' },
-    { id: 'rec-2', position: 'Chuyên viên Nhân sự tổng hợp', deptId: 'dept-2', quantity: 1, dueDate: '2026-06-25', status: 'tuyển dụng' },
-    { id: 'rec-3', position: 'Chuyên viên Thiết kế đồ họa', deptId: 'dept-4', quantity: 1, dueDate: '2026-05-31', status: 'đã tuyển' }
+    { id: 'rec-1', position: 'Giáo viên Tiếng Anh', deptId: 'dept-6', quantity: 2, dueDate: '2026-06-30', status: 'tuyển dụng' },
+    { id: 'rec-2', position: 'Chuyên viên HCNS', deptId: 'dept-2', quantity: 1, dueDate: '2026-06-25', status: 'tuyển dụng' },
+    { id: 'rec-3', position: 'Biên tập viên giáo trình', deptId: 'dept-4', quantity: 1, dueDate: '2026-05-31', status: 'đã tuyển' }
 ];
 
 const DEFAULT_CONTRACT_TEMPLATE = `CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
@@ -266,30 +285,37 @@ Hợp đồng này được lập thành 02 bản có giá trị pháp lý như 
 
 const StorageManager = {
     init() {
-        if (!localStorage.getItem(KEYS.DEPARTMENTS)) {
+        const storedDepts = localStorage.getItem(KEYS.DEPARTMENTS);
+        const shouldReset = !storedDepts || JSON.parse(storedDepts).length < 10;
+        
+        if (shouldReset) {
             localStorage.setItem(KEYS.DEPARTMENTS, JSON.stringify(MOCK_DEPARTMENTS));
-        }
-        if (!localStorage.getItem(KEYS.PERSONNEL)) {
             localStorage.setItem(KEYS.PERSONNEL, JSON.stringify(MOCK_PERSONNEL));
-        }
-        if (!localStorage.getItem(KEYS.TASKS)) {
             localStorage.setItem(KEYS.TASKS, JSON.stringify(MOCK_TASKS));
-        }
-        if (!localStorage.getItem(KEYS.PROCUREMENTS)) {
             localStorage.setItem(KEYS.PROCUREMENTS, JSON.stringify(MOCK_PROCUREMENTS));
-        }
-        if (!localStorage.getItem(KEYS.PROCEDURES)) {
             localStorage.setItem(KEYS.PROCEDURES, JSON.stringify(MOCK_PROCEDURES));
-        }
-        if (!localStorage.getItem(KEYS.DOCUMENTS)) {
             localStorage.setItem(KEYS.DOCUMENTS, JSON.stringify(MOCK_DOCUMENTS));
-        }
-        if (!localStorage.getItem(KEYS.RECRUITMENTS)) {
             localStorage.setItem(KEYS.RECRUITMENTS, JSON.stringify(MOCK_RECRUITMENTS));
-        }
-        if (!localStorage.getItem(KEYS.CONTRACT_TEMPLATE)) {
             localStorage.setItem(KEYS.CONTRACT_TEMPLATE, DEFAULT_CONTRACT_TEMPLATE);
+        } else {
+            // Đảm bảo không còn task nào ở trạng thái "review" cũ nếu có
+            try {
+                const tasks = JSON.parse(localStorage.getItem(KEYS.TASKS)) || [];
+                let modified = false;
+                tasks.forEach(t => {
+                    if (t.status === 'review') {
+                        t.status = 'in-progress';
+                        modified = true;
+                    }
+                });
+                if (modified) {
+                    localStorage.setItem(KEYS.TASKS, JSON.stringify(tasks));
+                }
+            } catch (e) {
+                console.error(e);
+            }
         }
+        
         if (!localStorage.getItem(KEYS.THEME)) {
             localStorage.setItem(KEYS.THEME, 'light');
         }

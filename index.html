@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow - Quản lý Công việc & Nhân sự</title>
+    <title>Hành chính - Nhân sự Novastars</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Chart.js CDN for personnel fluctuations charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,8 +13,8 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="logo-section">
-                <div class="logo-icon">TF</div>
-                <span class="logo-text">TaskFlow</span>
+                <div class="logo-icon">NS</div>
+                <span class="logo-text" style="font-size: 15px; font-weight: 800;">HCNS Novastars</span>
             </div>
 
             <nav class="nav-menu">
@@ -141,13 +141,7 @@
                                     <div class="font-semibold text-base-size" id="stat-inprogress-count">0</div>
                                 </div>
                             </div>
-                            <div class="status-badge-item">
-                                <span class="status-dot dot-review"></span>
-                                <div>
-                                    <div class="text-xs-size text-muted">Đang duyệt</div>
-                                    <div class="font-semibold text-base-size" id="stat-review-count">0</div>
-                                </div>
-                            </div>
+                            <!-- Review column removed -->
                             <div class="status-badge-item">
                                 <span class="status-dot dot-completed"></span>
                                 <div>
@@ -222,17 +216,16 @@
                             <!-- Populated dynamically -->
                         </select>
                         <select id="filter-task-priority" class="filter-control">
-                            <option value="">-- Tất cả độ ưu tiên --</option>
+                            <option value="">Độ ưu tiên</option>
                             <option value="high">Cao</option>
                             <option value="medium">Trung bình</option>
                             <option value="low">Thấp</option>
                         </select>
                         <div id="filter-task-status-container" class="hidden">
                             <select id="filter-task-status" class="filter-control">
-                                <option value="">-- Tất cả trạng thái --</option>
+                                <option value="">Trạng thái</option>
                                 <option value="todo">Cần làm</option>
                                 <option value="in-progress">Đang làm</option>
-                                <option value="review">Đang duyệt</option>
                                 <option value="completed">Hoàn thành</option>
                             </select>
                         </div>
@@ -274,7 +267,7 @@
                             <!-- Populated dynamically -->
                         </select>
                         <select id="filter-personnel-status" class="filter-control">
-                            <option value="">-- Tất cả trạng thái --</option>
+                            <option value="">Trạng thái</option>
                             <option value="active">Đang làm việc</option>
                             <option value="probation">Thử việc</option>
                             <option value="inactive">Đã nghỉ việc</option>
@@ -501,7 +494,6 @@
                         <select id="task-status" class="form-input">
                             <option value="todo">Cần làm</option>
                             <option value="in-progress">Đang làm</option>
-                            <option value="review">Đang duyệt</option>
                             <option value="completed">Hoàn thành</option>
                         </select>
                     </div>

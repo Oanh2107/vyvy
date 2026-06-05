@@ -183,7 +183,10 @@ function renderDashboardStats() {
     // Status text details
     document.getElementById('stat-todo-count').innerText = tasks.filter(t => t.status === 'todo').length;
     document.getElementById('stat-inprogress-count').innerText = tasks.filter(t => t.status === 'in-progress').length;
-    document.getElementById('stat-review-count').innerText = tasks.filter(t => t.status === 'review').length;
+    const reviewCountEl = document.getElementById('stat-review-count');
+    if (reviewCountEl) {
+        reviewCountEl.innerText = tasks.filter(t => t.status === 'review').length;
+    }
     document.getElementById('stat-completed-count').innerText = completedTasks;
 
     // Update Progress Bar
@@ -345,7 +348,7 @@ function renderFluctuationsChart() {
 
 // --- PERSONNEL PAGE LOGIC ---
 function setupPersonnelPage() {
-    DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Tất cả phòng ban');
+    DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Phòng ban');
 
     const searchInput = document.getElementById('search-personnel');
     const deptFilter = document.getElementById('filter-personnel-dept');
@@ -372,7 +375,7 @@ function setupPersonnelPage() {
 
 // --- TASKS PAGE LOGIC ---
 function setupTasksPage() {
-    DepartmentsManager.populateSelectElement('filter-task-dept', 'Tất cả phòng ban');
+    DepartmentsManager.populateSelectElement('filter-task-dept', 'Phòng ban');
     populateTaskAssigneeFilter();
 
     const viewKanbanBtn = document.getElementById('btn-view-kanban');
@@ -430,7 +433,7 @@ function populateTaskAssigneeFilter() {
     if (!select) return;
 
     const staff = PersonnelManager.getPersonnel().filter(p => p.status !== 'inactive');
-    let html = '<option value="">-- Tất cả người nhận --</option>';
+    let html = '<option value="">Người thực hiện</option>';
     staff.forEach(s => {
         html += `<option value="${s.id}">${s.name}</option>`;
     });
@@ -488,8 +491,8 @@ function setupDepartmentsPage() {
             
             DepartmentsManager.renderDepartmentsList('departments-list-container');
             // Update filter dropdowns
-            DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Tất cả phòng ban');
-            DepartmentsManager.populateSelectElement('filter-task-dept', 'Tất cả phòng ban');
+            DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Phòng ban');
+            DepartmentsManager.populateSelectElement('filter-task-dept', 'Phòng ban');
             
             showToast('Thêm phòng ban mới thành công!', 'success');
         } catch (error) {
@@ -523,8 +526,8 @@ function setupDataSettings() {
                 StorageManager.importData(file, (success, msg) => {
                     if (success) {
                         showToast(msg, 'success');
-                        DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Tất cả phòng ban');
-                        DepartmentsManager.populateSelectElement('filter-task-dept', 'Tất cả phòng ban');
+                        DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Phòng ban');
+                        DepartmentsManager.populateSelectElement('filter-task-dept', 'Phòng ban');
                         ProcurementManager.populateMonthFilter('filter-procurement-month');
                         populateTaskAssigneeFilter();
                         handleDataUpdate();
@@ -544,8 +547,8 @@ function setupDataSettings() {
         resetBtn.addEventListener('click', () => {
             if (confirm('Hành động này sẽ khôi phục dữ liệu mẫu ban đầu và xóa sạch các thay đổi của bạn. Bạn chắc chắn chứ?')) {
                 StorageManager.clearAll();
-                DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Tất cả phòng ban');
-                DepartmentsManager.populateSelectElement('filter-task-dept', 'Tất cả phòng ban');
+                DepartmentsManager.populateSelectElement('filter-personnel-dept', 'Phòng ban');
+                DepartmentsManager.populateSelectElement('filter-task-dept', 'Phòng ban');
                 ProcurementManager.populateMonthFilter('filter-procurement-month');
                 populateTaskAssigneeFilter();
             }

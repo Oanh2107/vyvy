@@ -762,18 +762,29 @@ input, select, textarea, button {
 }
 
 .priority-high {
-    background-color: rgba(244, 63, 94, 0.15);
-    color: var(--priority-high);
+    background-color: var(--priority-high);
+    color: #ffffff;
 }
 
 .priority-medium {
-    background-color: rgba(251, 146, 60, 0.15);
-    color: var(--priority-medium);
+    background-color: var(--priority-medium);
+    color: #ffffff;
 }
 
 .priority-low {
-    background-color: rgba(56, 189, 248, 0.15);
-    color: var(--priority-low);
+    background-color: var(--priority-low);
+    color: #ffffff;
+}
+
+/* Priority Left Borders for Kanban Cards */
+.kanban-card.priority-high-card {
+    border-left: 4px solid var(--priority-high);
+}
+.kanban-card.priority-medium-card {
+    border-left: 4px solid var(--priority-medium);
+}
+.kanban-card.priority-low-card {
+    border-left: 4px solid var(--priority-low);
 }
 
 /* Status Indicators in Table */
@@ -821,7 +832,7 @@ input, select, textarea, button {
 /* KANBAN BOARD SYSTEM */
 .kanban-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     align-items: start;
     width: 100%;

@@ -54,7 +54,7 @@ const DepartmentsManager = {
         if (!select) return;
 
         const depts = this.getDepartments();
-        let html = `<option value="">-- ${defaultOptionText} --</option>`;
+        let html = `<option value="">${defaultOptionText}</option>`;
         depts.forEach(dept => {
             html += `<option value="${dept.id}">${dept.name}</option>`;
         });
