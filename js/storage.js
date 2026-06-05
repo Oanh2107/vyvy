@@ -25,153 +25,11 @@ const MOCK_DEPARTMENTS = [
     { id: 'dept-10', name: 'Phòng sự kiện' }
 ];
 
-const MOCK_PERSONNEL = [
-    {
-        id: 'staff-1',
-        name: 'Nguyễn Văn An',
-        email: 'an.nguyen@company.com',
-        phone: '0901234567',
-        deptId: 'dept-3',
-        role: 'Trưởng phòng Kỹ thuật',
-        joinDate: '2024-01-15',
-        contractDate: '2024-01-15',
-        salary: 25000000,
-        bhxh: '0123456789',
-        status: 'active'
-    },
-    {
-        id: 'staff-2',
-        name: 'Trần Thị Bình',
-        email: 'binh.tran@company.com',
-        phone: '0912345678',
-        deptId: 'dept-2',
-        role: 'Chuyên viên HCNS',
-        joinDate: '2024-03-01',
-        contractDate: '2024-03-01',
-        salary: 15000000,
-        bhxh: '0987654321',
-        status: 'active'
-    },
-    {
-        id: 'staff-3',
-        name: 'Phạm Văn Cường',
-        email: 'cuong.pham@company.com',
-        phone: '0923456789',
-        deptId: 'dept-3',
-        role: 'Kỹ sư phần mềm',
-        joinDate: '2024-02-10',
-        contractDate: '2024-02-10',
-        salary: 22000000,
-        bhxh: '0246813579',
-        status: 'active'
-    },
-    {
-        id: 'staff-4',
-        name: 'Lê Thị Dung',
-        email: 'dung.le@company.com',
-        phone: '0934567890',
-        deptId: 'dept-4',
-        role: 'Biên tập viên chính',
-        joinDate: '2024-05-15',
-        contractDate: '2024-05-15',
-        salary: 10000000,
-        bhxh: '0135792468',
-        status: 'probation'
-    },
-    {
-        id: 'staff-5',
-        name: 'Hoàng Văn Giang',
-        email: 'giang.hoang@company.com',
-        phone: '0945678901',
-        deptId: 'dept-7',
-        role: 'Kỹ sư Thiết kế UI/UX',
-        joinDate: '2025-11-20',
-        contractDate: '2025-11-20',
-        salary: 12000000,
-        bhxh: '0909090909',
-        status: 'active'
-    },
-    {
-        id: 'staff-6',
-        name: 'Lê Minh Giáo',
-        email: 'giao.le@company.com',
-        phone: '0956789012',
-        deptId: 'dept-6',
-        role: 'Giáo viên',
-        joinDate: '2024-09-01',
-        contractDate: '2024-09-01',
-        salary: 18000000,
-        bhxh: '0555555555',
-        status: 'active'
-    }
-];
+const MOCK_PERSONNEL = [];
 
-const MOCK_TASKS = [
-    {
-        id: 'task-1',
-        title: 'Nâng cấp giao diện WebApp',
-        description: 'Nâng cấp giao diện người dùng sử dụng CSS hiện đại, tối ưu responsive trên di động và hỗ trợ Dark Mode.',
-        assigneeId: 'staff-3',
-        deptId: 'dept-3',
-        priority: 'high',
-        dueDate: '2026-06-15',
-        status: 'in-progress',
-        tags: 'Giao diện, Sửa lỗi'
-    },
-    {
-        id: 'task-2',
-        title: 'Xây dựng kế hoạch tuyển dụng giảng viên mới',
-        description: 'Lên tin tuyển dụng và tiêu chuẩn đánh giá giảng viên cho các lớp đào tạo HCNS.',
-        assigneeId: 'staff-2',
-        deptId: 'dept-2',
-        priority: 'medium',
-        dueDate: '2026-06-10',
-        status: 'todo',
-        tags: 'Tuyển dụng'
-    },
-    {
-        id: 'task-3',
-        title: 'Biên tập nội dung tài liệu đào tạo',
-        description: 'Soạn thảo và tổng hợp nội dung giáo trình đào tạo cho phòng Đào tạo.',
-        assigneeId: 'staff-4',
-        deptId: 'dept-4',
-        priority: 'high',
-        dueDate: '2026-06-20',
-        status: 'todo',
-        tags: 'Biên tập, Đào tạo'
-    },
-    {
-        id: 'task-4',
-        title: 'Báo cáo tài chính quý 1',
-        description: 'Tổng hợp doanh thu, chi phí và lợi nhuận của quý 1 năm 2026 gửi Ban giám đốc.',
-        assigneeId: 'staff-1',
-        deptId: 'dept-1',
-        priority: 'high',
-        dueDate: '2026-05-30',
-        status: 'completed',
-        tags: 'Tài chính, Báo cáo'
-    },
-    {
-        id: 'task-5',
-        title: 'Thiết kế Mockup Website Đào tạo',
-        description: 'Thiết kế giao diện các trang khóa học và chương trình đào tạo trực tuyến.',
-        assigneeId: 'staff-5',
-        deptId: 'dept-7',
-        priority: 'low',
-        dueDate: '2026-06-12',
-        status: 'in-progress',
-        tags: 'Thiết kế'
-    }
-];
+const MOCK_TASKS = [];
 
-const MOCK_PROCUREMENTS = [
-    { id: 'proc-1', date: '2026-05-10', productName: 'Máy tính xách tay Dell Vostro', quantity: 2, price: 17500000, supplier: 'Phong Vũ Computer', deptId: 'dept-3' },
-    { id: 'proc-2', date: '2026-05-12', productName: 'Bàn làm việc gỗ công nghiệp', quantity: 4, price: 1100000, supplier: 'Nội thất Hòa Phát', deptId: 'dept-2' },
-    { id: 'proc-3', date: '2026-05-15', productName: 'Giấy in A4 Double A 70gsm', quantity: 10, price: 82000, supplier: 'Văn phòng phẩm Hải Tiến', deptId: 'dept-2' },
-    { id: 'proc-4', date: '2026-06-01', productName: 'Máy in Canon LBP 2900', quantity: 1, price: 4450000, supplier: 'Siêu thị Điện máy Nguyễn Kim', deptId: 'dept-1' },
-    { id: 'proc-5', date: '2026-06-02', productName: 'Gói trà, cà phê & đường tháng 6', quantity: 1, price: 780000, supplier: 'Bách Hóa Xanh', deptId: 'dept-2' },
-    { id: 'proc-6', date: '2026-06-03', productName: 'Bút bi Thiên Long FO-03 (Hộp 20 cái)', quantity: 3, price: 95000, supplier: 'Nhà sách Nguyễn Văn Cừ', deptId: 'dept-4' }
-];
+const MOCK_PROCUREMENTS = [];
 
 const MOCK_PROCEDURES = [
     {
@@ -237,11 +95,7 @@ const MOCK_DOCUMENTS = [
     }
 ];
 
-const MOCK_RECRUITMENTS = [
-    { id: 'rec-1', position: 'Giáo viên Tiếng Anh', deptId: 'dept-6', quantity: 2, dueDate: '2026-06-30', status: 'tuyển dụng' },
-    { id: 'rec-2', position: 'Chuyên viên HCNS', deptId: 'dept-2', quantity: 1, dueDate: '2026-06-25', status: 'tuyển dụng' },
-    { id: 'rec-3', position: 'Biên tập viên giáo trình', deptId: 'dept-4', quantity: 1, dueDate: '2026-05-31', status: 'đã tuyển' }
-];
+const MOCK_RECRUITMENTS = [];
 
 const DEFAULT_CONTRACT_TEMPLATE = `CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
 Độc lập - Tự do - Hạnh phúc
@@ -290,26 +144,24 @@ const StorageManager = {
         
         if (shouldReset) {
             localStorage.setItem(KEYS.DEPARTMENTS, JSON.stringify(MOCK_DEPARTMENTS));
-            localStorage.setItem(KEYS.PERSONNEL, JSON.stringify(MOCK_PERSONNEL));
-            localStorage.setItem(KEYS.TASKS, JSON.stringify(MOCK_TASKS));
-            localStorage.setItem(KEYS.PROCUREMENTS, JSON.stringify(MOCK_PROCUREMENTS));
+            localStorage.setItem(KEYS.PERSONNEL, JSON.stringify([]));
+            localStorage.setItem(KEYS.TASKS, JSON.stringify([]));
+            localStorage.setItem(KEYS.PROCUREMENTS, JSON.stringify([]));
             localStorage.setItem(KEYS.PROCEDURES, JSON.stringify(MOCK_PROCEDURES));
             localStorage.setItem(KEYS.DOCUMENTS, JSON.stringify(MOCK_DOCUMENTS));
-            localStorage.setItem(KEYS.RECRUITMENTS, JSON.stringify(MOCK_RECRUITMENTS));
+            localStorage.setItem(KEYS.RECRUITMENTS, JSON.stringify([]));
             localStorage.setItem(KEYS.CONTRACT_TEMPLATE, DEFAULT_CONTRACT_TEMPLATE);
         } else {
-            // Đảm bảo không còn task nào ở trạng thái "review" cũ nếu có
+            // Auto-cleanup mock personnel if they exist in localStorage from previous versions
             try {
-                const tasks = JSON.parse(localStorage.getItem(KEYS.TASKS)) || [];
-                let modified = false;
-                tasks.forEach(t => {
-                    if (t.status === 'review') {
-                        t.status = 'in-progress';
-                        modified = true;
-                    }
-                });
-                if (modified) {
-                    localStorage.setItem(KEYS.TASKS, JSON.stringify(tasks));
+                let pList = JSON.parse(localStorage.getItem(KEYS.PERSONNEL)) || [];
+                const mockNames = ['Nguyễn Văn An', 'Trần Thị Bình', 'Phạm Văn Cường', 'Lê Thị Dung', 'Hoàng Văn Giang', 'Lê Minh Giáo'];
+                const hasMock = pList.some(p => mockNames.includes(p.name));
+                if (hasMock) {
+                    localStorage.setItem(KEYS.PERSONNEL, JSON.stringify([]));
+                    localStorage.setItem(KEYS.TASKS, JSON.stringify([]));
+                    localStorage.setItem(KEYS.PROCUREMENTS, JSON.stringify([]));
+                    localStorage.setItem(KEYS.RECRUITMENTS, JSON.stringify([]));
                 }
             } catch (e) {
                 console.error(e);
